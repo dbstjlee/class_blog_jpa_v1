@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +55,18 @@ public class BlogApiController {
 		Article article = blogService.findById(id);
 		return new ApiUtil<>(article);
 	}
+	
+	// 어노테이션 수정 - put
+	// URL 매핑(주소 설계) - http://localhost:8080/api/articles/1 -> PathVariable 방식
+		@PutMapping(value = "/api/articles/{id}")
+		public ApiUtil<?> updateArticle(@PathVariable(name = "id") Integer id, @RequestBody ArticleDTO dto) { 
+			
+			// 1. 인증검사
+			// 2. 유효성 검사
+			Article updateArticle = blogService.update(id, dto);
+			return new ApiUtil<>(updateArticle);
+		}
+	
 	
 	
 }
